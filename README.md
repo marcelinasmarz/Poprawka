@@ -5,6 +5,7 @@ przykład Buildera
 
 
 // Produkt
+
 class Pizza {
     private String ciasto;
     private String sos;
@@ -21,6 +22,7 @@ class Pizza {
 }
 
 // Builder
+
 interface PizzaBuilder {
     void buildCiasto();
     void buildSos();
@@ -29,6 +31,7 @@ interface PizzaBuilder {
 }
 
 // Konkretni builderzy
+
 class MargheritaBuilder implements PizzaBuilder {
     private Pizza pizza = new Pizza();
     public void buildCiasto() { pizza.setCiasto("Cienkie"); }
@@ -46,6 +49,8 @@ class PepperoniBuilder implements PizzaBuilder {
 }
 
 // Dyrektor
+
+
 class Pizzeria {
     private PizzaBuilder builder;
     public Pizzeria(PizzaBuilder builder) { this.builder = builder; }
@@ -58,6 +63,7 @@ class Pizzeria {
 }
 
 // Test
+
 class MainPizza {
     public static void main(String[] args) {
         Pizzeria pizzeria = new Pizzeria(new MargheritaBuilder());
