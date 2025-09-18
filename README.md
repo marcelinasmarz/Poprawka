@@ -1,5 +1,9 @@
 # Poprawka
 
+Pamiętaj!!
+
+Jak masz ArrayList to jest specjalna funckja indexOf !!
+
 
 przykład Buildera
 
@@ -73,3 +77,133 @@ class MainPizza {
         System.out.println(pizzeria.zrobPizze());
     }
 }
+
+READERY
+1️⃣ FileReader – odczyt całego pliku do String
+import java.io.*;
+
+public class FileReaderToString {
+    public static void main(String[] args) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (FileReader fr = new FileReader("example.txt")) {
+            int ch;
+            while ((ch = fr.read()) != -1) {
+                sb.append((char) ch);
+            }
+        }
+        String content = sb.toString();
+        System.out.println("Zawartość pliku: " + content);
+    }
+}
+
+2️⃣ BufferedReader – odczyt linii do List<String>
+import java.io.*;
+import java.util.*;
+
+public class BufferedReaderToList {
+    public static void main(String[] args) throws IOException {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("example.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        }
+        System.out.println("Linie pliku: " + lines);
+    }
+}
+
+3️⃣ CharArrayReader – odczyt do String
+import java.io.*;
+
+public class CharArrayReaderToString {
+    public static void main(String[] args) throws IOException {
+        char[] data = "Hello World!".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        try (CharArrayReader car = new CharArrayReader(data)) {
+            int ch;
+            while ((ch = car.read()) != -1) {
+                sb.append((char) ch);
+            }
+        }
+        String content = sb.toString();
+        System.out.println("Odczyt z tablicy znaków: " + content);
+    }
+}
+
+4️⃣ StringReader – odczyt do String
+import java.io.*;
+
+public class StringReaderToString {
+    public static void main(String[] args) throws IOException {
+        String data = "Dane z StringReader";
+        StringBuilder sb = new StringBuilder();
+        try (StringReader sr = new StringReader(data)) {
+            int ch;
+            while ((ch = sr.read()) != -1) {
+                sb.append((char) ch);
+            }
+        }
+        String content = sb.toString();
+        System.out.println(content);
+    }
+}
+
+5️⃣ InputStreamReader – odczyt z pliku do String
+import java.io.*;
+
+public class InputStreamReaderToString {
+    public static void main(String[] args) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (InputStreamReader isr = new InputStreamReader(new FileInputStream("example.txt"), "UTF-8")) {
+            int ch;
+            while ((ch = isr.read()) != -1) {
+                sb.append((char) ch);
+            }
+        }
+        String content = sb.toString();
+        System.out.println(content);
+    }
+}
+
+6️⃣ PipedReader – odczyt między wątkami do String
+import java.io.*;
+
+public class PipedReaderToString {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        PipedReader reader = new PipedReader();
+        PipedWriter writer = new PipedWriter(reader);
+
+        StringBuilder sb = new StringBuilder();
+
+        Thread writerThread = new Thread(() -> {
+            try {
+                writer.write("Dane między wątkami");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread readerThread = new Thread(() -> {
+            try {
+                int ch;
+                while ((ch = reader.read()) != -1) {
+                    sb.append((char) ch);
+                }
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        writerThread.start();
+        readerThread.start();
+        writerThread.join();
+        readerThread.join();
+
+        String content = sb.toString();
+        System.out.println(content);
+    }
+}
+
